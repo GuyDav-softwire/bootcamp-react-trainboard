@@ -4,6 +4,7 @@ import { fetchFares } from '../helpers/ApiCallHelper';
 import { JourneyInfo } from '../models/JourneyInfo';
 import DropdownList from './DropdownList';
 import JourneyItem from './JourneyItem';
+import JourneyItemHeader from './JourneyItemHeader';
 
 const JourneySelector: React.FC = () => {
     const stations = [
@@ -16,10 +17,12 @@ const JourneySelector: React.FC = () => {
 
     const [departureValue, setDepartureValue] = useState(stations[0]);
     const [arrivalValue, setArrivalValue] = useState(stations[0]);
+    const [isSearching, setIsSearching] = useState(false);
 
     const [journeys, setJourneys] = useState([] as JourneyInfo[]);
 
     const searchFares = async () => {
+        setJourneys([]);
         fetchFares({ 
             originStationCrs: departureValue.crs,
             destinationStationCrs: arrivalValue.crs,
@@ -37,13 +40,13 @@ const JourneySelector: React.FC = () => {
                         },
                     ]);
                 });
-                console.log(journeys);
                 },
                 );
             },
             )
             .catch((err) => console.log(err));
-        console.log(journeys);
+
+        setIsSearching(false);
     };
 
     return (
@@ -58,10 +61,11 @@ const JourneySelector: React.FC = () => {
                     <DropdownList items = { stations } value = { arrivalValue } setValue = { setArrivalValue }/>
                 </div>
                 <div className = 'Go-button'>
-                    <button onClick = { searchFares }>GO</button>
+                    <button onClick = { () => {setIsSearching(true); console.log(isSearching); searchFares();} } disabled = { isSearching } >Go</button>
                 </div>
             </div>
             <div>
+                {(journeys.length != 0) && <JourneyItemHeader />}
                 {
                     journeys.map(journeyInfo => 
                         <div key = { journeyInfo.departureTime.toUTCString() }><JourneyItem { ...journeyInfo } /></div>,

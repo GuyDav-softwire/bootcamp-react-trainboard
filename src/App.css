@@ -74,10 +74,13 @@
   padding: 40px 0;
 }
 
-.Journey-item {
-  width: 100%;
+.journey-grid-container {
+  width: 60%;
+  margin: auto;
   display: flex;
   justify-content: space-evenly;
+  border: 1px solid black;
+  padding: 3px 0;
 }
 
 @keyframes App-logo-spin {

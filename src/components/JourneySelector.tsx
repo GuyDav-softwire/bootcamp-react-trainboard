@@ -17,7 +17,7 @@ const JourneySelector: React.FC = () => {
     const [departureValue, setDepartureValue] = useState(stations[0]);
     const [arrivalValue, setArrivalValue] = useState(stations[0]);
 
-    const journeys: Array<JourneyInfo> = [];
+    const [journeys, setJourneys] = useState([] as JourneyInfo[]);
 
     const searchFares = async () => {
         fetchFares({ 
@@ -27,13 +27,15 @@ const JourneySelector: React.FC = () => {
         })
             .then((value) => {
                 value.json().then(value => {(value.outboundJourneys as Array<any>).forEach(outboundJourney => {
-                    console.log('pushing journey with departure time: ' + outboundJourney.departureTime);
-                    journeys.push({
-                        departureTime: new Date(outboundJourney.departureTime),
-                        destination: { name: outboundJourney.destinationStation.displayName, crs: outboundJourney.destinationStation.crs },
-                        status: outboundJourney.status,
-                        duration: outboundJourney.journeyDurationInMinutes,
-                    });
+                    setJourneys(oldJourneys => [
+                        ...oldJourneys,
+                        {
+                            departureTime: new Date(outboundJourney.departureTime),
+                            destination: { name: outboundJourney.destinationStation.displayName, crs: outboundJourney.destinationStation.crs },
+                            status: outboundJourney.status,
+                            duration: outboundJourney.journeyDurationInMinutes,
+                        },
+                    ]);
                 });
                 console.log(journeys);
                 },

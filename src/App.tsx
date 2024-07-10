@@ -1,14 +1,14 @@
 import React from 'react';
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import DropdownList from './components/DropdownList';
+import JourneySelector from './components/JourneySelector';
 import Station from './components/Station';
 import Stations from './components/Stations';
 
 const App = () => (
     <BrowserRouter>
         <div className = "App">
-            < DropdownList/>
+            < JourneySelector />
             <Routes>
                 <Route path = "/stations">
                     <Route path = ":id" element = { <Station/> }/>

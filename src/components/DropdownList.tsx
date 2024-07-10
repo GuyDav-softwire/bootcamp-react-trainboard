@@ -1,29 +1,28 @@
 import React, { useState } from 'react';
 import '../App.css';
+import StationModel from '../models/StationModels';
 import StationListItem from './StationListItem';
 
-const DropdownList: React.FC = () => {
-    const stations = [
-        { crs: 'KGX', name: 'King\'s Cross' }, 
-        { crs: 'SVG', name: 'Stevenage' }, 
-        { crs: 'YRK', name: 'York' }, 
-        { crs: 'DAR', name: 'Darlington' }, 
-        { crs: 'NCL', name: 'Newcastle' },
-    ];
+interface DropdownProps<T> {
+    items: Array<T>;
+    value: T;
+    setValue: (value: T) => void;
+}
+
+const DropdownList: React.FC<DropdownProps<StationModel>> = ({ items, value, setValue }) => {
 
     const [listShown, setListShown] = useState(false);
-    const [value, setValue] = useState('Stations');
 
     return (
         <div className = "Dropdown-menu">
-            <button className = "Dropdown-value" onClick = { () => setListShown(!listShown) }>{ value }</button>
+            <button className = "Dropdown-value" onClick = { () => setListShown(!listShown) }>{ value.name }</button>
             {
                 listShown && 
                 <ul className = 'Dropdown-list'>
                     { 
-                        stations.map(station => 
-                            <li key = { station.name } className = 'Dropdown-list-item'>
-                                <StationListItem name = { station.name } crs = { station.crs } onClickSetValue = { (value) => {setValue(value); setListShown(!listShown);} } />
+                        items.map(station => 
+                            <li key = { station.crs } className = 'Dropdown-list-item'>
+                                <StationListItem value = { station } onClickSetValue = { (value) => {setValue(value); setListShown(!listShown);} } />
                             </li>,
                         )
                     }

@@ -1,15 +1,15 @@
 import React from 'react';
+import StationModel from '../models/StationModels';
 
 interface StationListItemProps {
-    name: string;
-    crs: string;
-    onClickSetValue: (value: string) => void;
+    value: StationModel;
+    onClickSetValue: (value: StationModel) => void;
 }
 
-const StationListItem: React.FC<StationListItemProps> = ({ name, crs, onClickSetValue }) => {
+const StationListItem: React.FC<StationListItemProps> = ({ value, onClickSetValue }) => {
     return (
-        <div key = { name } onClick = { () => onClickSetValue(name) }>
-            {name}: {crs}
+        <div onClick = { () => onClickSetValue(value) }>
+            {value.name}: {value.crs}
         </div>
     );
 };

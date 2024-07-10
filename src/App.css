@@ -28,6 +28,40 @@
   color: #61dafb;
 }
 
+* {
+  box-sizing: border-box;
+}
+
+.Dropdown-list {
+  list-style-type: none;
+  width: 100%;
+  border: 1px, solid, black;
+  margin: auto;
+}
+
+.Dropdown-list-item {
+  margin: none;
+  margin-left: -40px;
+  border-bottom: 1px solid black;
+}
+
+.Dropdown-list-item:hover {
+  background-color: blue;
+  color: white;
+  cursor: pointer;
+}
+
+.Dropdown-value {
+  width: 100%;
+  margin: auto;
+  padding: 1px 5px;
+}
+
+.Dropdown-menu {
+  width: 12%;
+  margin: auto;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

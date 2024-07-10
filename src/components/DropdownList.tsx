@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import '../App.css';
 import StationListItem from './StationListItem';
 
 const DropdownList: React.FC = () => {
@@ -11,18 +12,18 @@ const DropdownList: React.FC = () => {
     ];
 
     const [listShown, setListShown] = useState(false);
-    const [value, setValue] = useState('');
+    const [value, setValue] = useState('Stations');
 
     return (
-        <div>
-            <button onClick = { () => setListShown(!listShown) }>{ value }</button>
+        <div className = "Dropdown-menu">
+            <button className = "Dropdown-value" onClick = { () => setListShown(!listShown) }>{ value }</button>
             {
                 listShown && 
-                <ul>
+                <ul className = 'Dropdown-list'>
                     { 
                         stations.map(station => 
-                            <li key = { station.name }>
-                                <StationListItem name = { station.name } crs = { station.crs } onClickSetValue = { setValue } />
+                            <li key = { station.name } className = 'Dropdown-list-item'>
+                                <StationListItem name = { station.name } crs = { station.crs } onClickSetValue = { (value) => {setValue(value); setListShown(!listShown);} } />
                             </li>,
                         )
                     }

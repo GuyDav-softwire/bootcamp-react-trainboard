@@ -8,9 +8,9 @@ interface StationListItemProps {
 
 const StationListItem: React.FC<StationListItemProps> = ({ name, crs, onClickSetValue }) => {
     return (
-        <button key = { name } onClick = { () => onClickSetValue(name) }>
+        <div key = { name } onClick = { () => onClickSetValue(name) }>
             {name}: {crs}
-        </button>
+        </div>
     );
 };
 

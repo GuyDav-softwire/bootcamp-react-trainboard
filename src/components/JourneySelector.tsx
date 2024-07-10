@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import '../App.css';
 import { fetchFares } from '../helpers/ApiCallHelper';
-import { DepartureInfo } from '../models/DepartureInfo';
+import { JourneyInfo } from '../models/JourneyInfo';
 import DropdownList from './DropdownList';
+import JourneyItem from './JourneyItem';
 
 const JourneySelector: React.FC = () => {
     const stations = [
@@ -16,7 +17,7 @@ const JourneySelector: React.FC = () => {
     const [departureValue, setDepartureValue] = useState(stations[0]);
     const [arrivalValue, setArrivalValue] = useState(stations[0]);
 
-    const journeys: Array<DepartureInfo> = [];
+    const journeys: Array<JourneyInfo> = [];
 
     const searchFares = async () => {
         fetchFares({ 
@@ -25,14 +26,18 @@ const JourneySelector: React.FC = () => {
             outboundDateTime: new Date(), 
         })
             .then((value) => {
-                value.json().then(value => (value.outboundJourneys as Array<any>).forEach(outboundJourney => {
+                value.json().then(value => {(value.outboundJourneys as Array<any>).forEach(outboundJourney => {
+                    console.log('pushing journey with departure time: ' + outboundJourney.departureTime);
                     journeys.push({
                         departureTime: new Date(outboundJourney.departureTime),
                         destination: { name: outboundJourney.destinationStation.displayName, crs: outboundJourney.destinationStation.crs },
                         status: outboundJourney.status,
                         duration: outboundJourney.journeyDurationInMinutes,
                     });
-                }));
+                });
+                console.log(journeys);
+                },
+                );
             },
             )
             .catch((err) => console.log(err));
@@ -53,6 +58,13 @@ const JourneySelector: React.FC = () => {
                 <div className = 'Go-button'>
                     <button onClick = { searchFares }>GO</button>
                 </div>
+            </div>
+            <div>
+                {
+                    journeys.map(journeyInfo => 
+                        <div key = { journeyInfo.departureTime.toUTCString() }><JourneyItem { ...journeyInfo } /></div>,
+                    )
+                }
             </div>
         </div>
     );

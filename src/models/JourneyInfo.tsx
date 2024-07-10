@@ -1,6 +1,6 @@
 import StationModel from './StationModels';
 
-export interface DepartureInfo {
+export interface JourneyInfo {
     departureTime: Date;
     destination: StationModel;
     status: string;

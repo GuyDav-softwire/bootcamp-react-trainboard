@@ -15,7 +15,12 @@ const DropdownList: React.FC<DropdownProps<StationModel>> = ({ label, items, set
             <Select 
                 label = { label }
                 value = { undefined }
-                onChange = { (event: SelectChangeEvent) => setValue(items.get(event.target.value)!) }
+                onChange = { (event: SelectChangeEvent) => {
+                    const newStation = items.get(event.target.value);
+                    if (newStation) {
+                        setValue(newStation);
+                    }
+                } }
             >
                 {
                     Array.from(items.values()).map(station => 

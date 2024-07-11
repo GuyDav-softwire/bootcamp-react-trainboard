@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "file-loader": "^6.2.0"
+    "file-loader": "^6.2.0",
+    "lodash.isequal": "^4.5.0"
   }
 }

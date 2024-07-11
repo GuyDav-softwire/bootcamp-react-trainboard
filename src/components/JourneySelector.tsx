@@ -27,6 +27,7 @@ const JourneySelector: React.FC =  () => {
                 setShowAlert(true);
             } 
             else {
+                setShowAlert(false);
                 setJourneys((await getDepartureInfoFromFares( departureValue, arrivalValue )) ?? []);
             }
         }

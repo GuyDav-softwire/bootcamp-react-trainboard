@@ -1,57 +1,39 @@
 import React, { useState } from 'react';
-import '../App.css';
-import { fetchFares } from '../helpers/ApiCallHelper';
-import { DepartureInfo, departureInfoFromOutboundJourney } from '../models/DepartureInfo';
-import { FaresAPIResponseJSON } from '../models/FaresAPIResponse';
+import { Button, Stack } from '@mui/material';
+import Container from '@mui/material/Container';
+import { getDepartureInfoFromFares } from '../helpers/ApiResponseHelper';
+import { DepartureInfo } from '../models/DepartureInfo';
+import { StationModel } from '../models/StationModels';
 import DropdownList from './DropdownList';
 
-const JourneySelector: React.FC = () => {
-    const stations = [
-        { crs: 'KGX', name: 'King\'s Cross' }, 
-        { crs: 'SVG', name: 'Stevenage' }, 
-        { crs: 'YRK', name: 'York' }, 
-        { crs: 'DAR', name: 'Darlington' }, 
-        { crs: 'NCL', name: 'Newcastle' },
-    ];
+const JourneySelector: React.FC =  () => {
+    const stations: Map<string, StationModel> = new Map();
+    stations.set('KGX', { crs: 'KGX', name: 'King\'s Cross' }); 
+    stations.set('SVG', { crs: 'SVG', name: 'Stevenage' }); 
+    stations.set('YRK', { crs: 'YRK', name: 'York' });
+    stations.set('DAR', { crs: 'DAR', name: 'Darlington' });
+    stations.set('NCL', { crs: 'NCL', name: 'Newcastle' });
 
-    const [departureValue, setDepartureValue] = useState(stations[0]);
-    const [arrivalValue, setArrivalValue] = useState(stations[0]);
+    const [departureValue, setDepartureValue] = useState({ crs: 'KGX', name: 'King\'s Cross' });
+    const [arrivalValue, setArrivalValue] = useState({ crs: 'DAR', name: 'Darlington' });
 
-    const journeys: DepartureInfo[] = [];
+    let journeys: DepartureInfo[] = [];
 
     const searchFares = async () => {
-        const response = await fetchFares({ 
-            originStationCrs: departureValue.crs,
-            destinationStationCrs: arrivalValue.crs,
-            outboundDateTime: new Date(), 
-        }).catch(err => {alert(err); return null;});
-
-        if (!response || response.status != 200) {
-            return;
-        }
-
-        const apiData = await response.json() as FaresAPIResponseJSON;
-        apiData.outboundJourneys.forEach(outboundJourney => {
-            journeys.push(departureInfoFromOutboundJourney(outboundJourney));
-        });
+        journeys = (await getDepartureInfoFromFares( departureValue, arrivalValue )) ?? [];
+        console.log(journeys);
     };
 
     return (
-        <div>
-            <div className = 'journey-container'>
-                <div>
-                    <h2>Departure</h2>
-                    <DropdownList items = { stations } value = { departureValue } setValue = { setDepartureValue } />
-                </div>
-                <div>
-                    <h2>Arrival</h2>
-                    <DropdownList items = { stations } value = { arrivalValue } setValue = { setArrivalValue }/>
-                </div>
-                <div className = 'go-button'>
-                    <button onClick = { searchFares }>GO</button>
-                </div>
-            </div>
-        </div>
+        <Container sx = { { marginTop: 5 } }>
+            <Stack direction = 'row' spacing = { 10 }>
+                <DropdownList label = { 'Departure Station' } items = { stations } setValue = { setDepartureValue } />
+
+                <DropdownList label = { 'Arrival Station' } items = { stations } setValue = { setArrivalValue } />
+
+                <Button variant = 'contained' onClick = { searchFares }>GO</Button>
+            </Stack>
+        </Container>
     );
 };
 

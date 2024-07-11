@@ -1,19 +1,19 @@
-.App {
+.app {
   text-align: center;
 }
 
-.App-logo {
+.app-logo {
   height: 40vmin;
   pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
+  .app-logo {
     animation: App-logo-spin infinite 20s linear;
   }
 }
 
-.App-header {
+.app-header {
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -24,7 +24,7 @@
   color: white;
 }
 
-.App-link {
+.app-link {
   color: #61dafb;
 }
 
@@ -32,45 +32,39 @@
   box-sizing: border-box;
 }
 
-.Dropdown-list {
+.dropdown-list {
   list-style-type: none;
-  width: 100%;
   border: 1px, solid, black;
   margin: 0;
   padding: 0;
 }
 
-.Dropdown-list-item {
-  margin: none;
+.dropdown-list-item {
   border-bottom: 1px solid black;
 }
 
-.Dropdown-list-item:hover {
+.dropdown-list-item:hover {
   background-color: blue;
   color: white;
   cursor: pointer;
 }
 
-.Dropdown-value {
+.dropdown-value {
   width: 100%;
-  margin: auto;
-  padding: 1px 5px;
 }
 
-.Dropdown-menu {
-  margin: auto;
+.dropdown-menu {
   width: 125px;
 }
 
-.Journey-container {
+.journey-container {
   width: 50%;
   display: flex;
-  flex-direction: row;
   margin: auto;
   justify-content: space-evenly;
 }
 
-.Go-button {
+.go-button {
   padding: 40px 0;
 }
 

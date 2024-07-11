@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import '../App.css';
-import StationModel from '../models/StationModels';
+import { StationModel } from '../models/StationModels';
 import StationListItem from './StationListItem';
 
 interface DropdownProps<T> {
-    items: Array<T>;
+    items: T[];
     value: T;
     setValue: (value: T) => void;
 }
@@ -14,15 +14,23 @@ const DropdownList: React.FC<DropdownProps<StationModel>> = ({ items, value, set
     const [listShown, setListShown] = useState(false);
 
     return (
-        <div className = "Dropdown-menu">
-            <button className = "Dropdown-value" onClick = { () => setListShown(!listShown) }>{ value.name }</button>
+        <div className = "dropdown-menu">
+            <button 
+                className = "dropdown-value" 
+                onClick = { () => setListShown(!listShown) }
+            >
+                { value.name }
+            </button>
             {
                 listShown && 
-                <ul className = 'Dropdown-list'>
+                <ul className = 'dropdown-list'>
                     { 
                         items.map(station => 
-                            <li key = { station.crs } className = 'Dropdown-list-item'>
-                                <StationListItem value = { station } onClickSetValue = { (value) => {setValue(value); setListShown(!listShown);} } />
+                            <li key = { station.crs } className = 'dropdown-list-item'>
+                                <StationListItem
+                                    station = { station } 
+                                    onClickSetStation = { (station) => {setValue(station); setListShown(!listShown);} } 
+                                />
                             </li>,
                         )
                     }

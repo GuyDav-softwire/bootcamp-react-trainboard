@@ -7,8 +7,8 @@ import Stations from './components/Stations';
 
 const App = () => (
     <BrowserRouter>
-        <div className = "App">
-            < JourneySelector />
+        <div className = "app">
+            <JourneySelector />
             <Routes>
                 <Route path = "/stations">
                     <Route path = ":id" element = { <Station/> }/>

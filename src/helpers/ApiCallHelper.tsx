@@ -9,8 +9,8 @@ export const fetchStations = () => {
 
 export const fetchFares = (queryParams: FaresQuery) => {
     const params = new URLSearchParams({
-        originStation: queryParams.originStationCrs,
-        destinationStation: queryParams.destinationStationCrs,
+        originStation: queryParams.originStationNlc,
+        destinationStation: queryParams.destinationStationNlc,
         outboundDateTime: queryParams.outboundDateTime.toISOString(),
         numberOfChildren: '0',
         numberOfAdults: '2',

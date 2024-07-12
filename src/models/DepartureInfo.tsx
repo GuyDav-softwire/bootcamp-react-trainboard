@@ -11,7 +11,11 @@ export interface DepartureInfo {
 export const departureInfoFromOutboundJourney = (outboundJourney: OutboundJourney) => {
     return {
         departureTime: new Date(outboundJourney.departureTime),
-        destination: { name: outboundJourney.destinationStation.displayName, crs: outboundJourney.destinationStation.crs },
+        destination: { 
+            name: outboundJourney.destinationStation.displayName, 
+            crs: outboundJourney.destinationStation.crs, 
+            nlc: outboundJourney.destinationStation.nlc,
+        },
         status: outboundJourney.status,
         duration: outboundJourney.journeyDurationInMinutes,
     };

@@ -1,5 +1,5 @@
 export interface FaresQuery {
-    originStationCrs: string;
-    destinationStationCrs: string;
+    originStationNlc: string;
+    destinationStationNlc: string;
     outboundDateTime: Date;
 }

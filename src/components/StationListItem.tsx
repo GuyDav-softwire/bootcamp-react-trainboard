@@ -4,7 +4,7 @@ import { StationModel } from '../models/StationModel';
 
 const StationListItem = (station: StationModel) => {
     return (
-        <MenuItem key = { station.crs } value = { station.crs }>
+        <MenuItem key = { station.nlc } value = { station.nlc }>
             { station.name }
         </MenuItem>
     );

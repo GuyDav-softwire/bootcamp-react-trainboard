@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Alert, Button, LinearProgress, Stack } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { Alert, Autocomplete, Button, LinearProgress, Stack, TextField } from '@mui/material';
 import Container from '@mui/material/Container';
-import { getDepartureInfoFromFares } from '../helpers/ApiResponseHelper';
+import { getDepartureInfoListFromFares, getStationModelListFromStations } from '../helpers/ApiResponseHelper';
 import { DepartureInfo } from '../models/DepartureInfo';
 import { areStationsEqual, StationModel } from '../models/StationModel';
 import DropdownList from './DropdownList';
@@ -9,18 +9,20 @@ import JourneyDisplayTable from './JourneyDisplayTable';
 import StationListItem from './StationListItem';
 
 const JourneySelector: React.FC =  () => {
-    const stationsMap: Map<string, StationModel> = new Map();
-    stationsMap.set('KGX', { crs: 'KGX', name: 'King\'s Cross' }); 
-    stationsMap.set('SVG', { crs: 'SVG', name: 'Stevenage' }); 
-    stationsMap.set('YRK', { crs: 'YRK', name: 'York' });
-    stationsMap.set('DAR', { crs: 'DAR', name: 'Darlington' });
-    stationsMap.set('NCL', { crs: 'NCL', name: 'Newcastle' });
-
+    const [stationsMap, setStationsMap] = useState<Map<string, StationModel>>( new Map() );
     const [departureStation, setDepartureStation] = useState<StationModel|undefined>( undefined );
     const [arrivalStation, setArrivalStation] = useState<StationModel|undefined>( undefined );
     const [journeys, setJourneys] = useState<DepartureInfo[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
+
+    useEffect(() => {
+        getStationModelListFromStations().then(stationList => {
+            const tempStationMap: Map<string, StationModel> = new Map();
+            stationList?.forEach(station => tempStationMap.set(station.nlc, station));
+            setStationsMap(tempStationMap);
+        }); 
+    }, []); 
 
     const searchFares = async () => {
         if (departureStation && arrivalStation) {
@@ -29,7 +31,7 @@ const JourneySelector: React.FC =  () => {
             } 
             else {
                 setShowAlert(false);
-                setJourneys((await getDepartureInfoFromFares(departureStation, arrivalStation)) ?? []);
+                setJourneys((await getDepartureInfoListFromFares(departureStation, arrivalStation)) ?? []);
             }
         }
         setIsSearching(false);

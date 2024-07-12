@@ -40,22 +40,11 @@ export interface Bulletin {
     usingDefaultTitle: boolean;
 }
 export interface DestinationStation {
-    displayName: Name;
+    displayName: string;
     nlc:         string;
-    crs:         CRS;
+    crs:         string;
 }
-export enum CRS {
-    Dar = 'DAR',
-    Kgx = 'KGX',
-    Lds = 'LDS',
-    Yrk = 'YRK',
-}
-export enum Name {
-    Darlington = 'Darlington',
-    Leeds = 'Leeds',
-    LondonKingsCross = 'London Kings Cross',
-    York = 'York',
-}
+
 export interface Leg {
     legId:                           string;
     rsid:                            string;
@@ -87,7 +76,7 @@ export interface PrimaryTrainOperator {
 }
 export interface StationMessage {
     stationMessageId: string;
-    crsList:          CRS[];
+    crsList:          string[];
     severity:         string;
     category:         string;
     message:          string;
@@ -96,7 +85,7 @@ export interface Ticket {
     fareId:                      string;
     fareSignature:               string;
     fareOriginLocationName:      FareOriginLocationName;
-    fareDestinationLocationName: Name;
+    fareDestinationLocationName: string;
     fareSource:                  FareSource;
     ftot:                        string;
     ticketOptionToken:           string;

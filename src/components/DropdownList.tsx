@@ -1,43 +1,34 @@
-import React, { useState } from 'react';
-import '../App.css';
-import { StationModel } from '../models/StationModels';
-import StationListItem from './StationListItem';
+import React from 'react';
+import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 
 interface DropdownProps<T> {
-    items: T[];
-    value: T;
+    label: string;
+    items: Map<string,T>;
     setValue: (value: T) => void;
+    getComponent: (item: T) => React.ReactNode;
 }
 
-const DropdownList: React.FC<DropdownProps<StationModel>> = ({ items, value, setValue }) => {
-
-    const [listShown, setListShown] = useState(false);
-
+const DropdownList = <T,>(props: DropdownProps<T>) => {
     return (
-        <div className = "dropdown-menu">
-            <button 
-                className = "dropdown-value" 
-                onClick = { () => setListShown(!listShown) }
-            >
-                { value.name }
-            </button>
-            {
-                listShown && 
-                <ul className = 'dropdown-list'>
-                    { 
-                        items.map(station => 
-                            <li key = { station.crs } className = 'dropdown-list-item'>
-                                <StationListItem
-                                    station = { station } 
-                                    onClickSetStation = { (station) => {setValue(station); setListShown(!listShown);} } 
-                                />
-                            </li>,
-                        )
+        <FormControl fullWidth>
+            <InputLabel>{ props.label }</InputLabel>
+            <Select 
+                label = { props.label }
+                value = { undefined }
+                onChange = { (event: SelectChangeEvent) => {
+                    const newStation = props.items.get(event.target.value);
+                    if (newStation) {
+                        props.setValue(newStation);
                     }
-                </ul>
-            }
-
-        </div>
+                } }
+            >
+                {
+                    Array.from(props.items.values()).map(item =>
+                        props.getComponent(item),
+                    )
+                }
+            </Select>
+        </FormControl>
     );
 };
 

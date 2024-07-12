@@ -1,16 +1,12 @@
 import React from 'react';
-import { StationModel } from '../models/StationModels';
+import { MenuItem } from '@mui/material';
+import { StationModel } from '../models/StationModel';
 
-interface StationListItemProps {
-    station: StationModel;
-    onClickSetStation: (station: StationModel) => void;
-}
-
-const StationListItem: React.FC<StationListItemProps> = ({ station, onClickSetStation }) => {
+const StationListItem = (station: StationModel) => {
     return (
-        <div onClick = { () => onClickSetStation(station) }>
-            {station.name}: {station.crs}
-        </div>
+        <MenuItem key = { station.crs } value = { station.crs }>
+            { station.name }
+        </MenuItem>
     );
 };
 

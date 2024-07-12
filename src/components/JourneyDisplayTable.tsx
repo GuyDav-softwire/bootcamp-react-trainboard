@@ -12,10 +12,10 @@ const JourneyDisplayTable: React.FC<JourneyDisplayTableProps> = ({ journeys }) =
             <Table sx = { { minWidth: 650 } } aria-label = 'simple table'>
                 <TableHead>
                     <TableRow>
-                        <TableCell>Departure Time</TableCell>
-                        <TableCell align = "left">Destination</TableCell>
-                        <TableCell align = "left">Duration (Minutes)</TableCell>
-                        <TableCell align = "left">Status</TableCell>
+                        <TableCell sx = { { fontWeight: 'bold' } }>Departure Time</TableCell>
+                        <TableCell sx = { { fontWeight: 'bold' } }>Destination</TableCell>
+                        <TableCell sx = { { fontWeight: 'bold' } }>Duration (Minutes)</TableCell>
+                        <TableCell sx = { { fontWeight: 'bold' } }>Status</TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -27,9 +27,9 @@ const JourneyDisplayTable: React.FC<JourneyDisplayTableProps> = ({ journeys }) =
                             <TableCell component = "th" scope = "row">
                                 {journey.departureTime.toLocaleString('en-GB')}
                             </TableCell>
-                            <TableCell align = "left">{journey.destination.name}</TableCell>
-                            <TableCell align = "left">{journey.duration}</TableCell>
-                            <TableCell align = "left">{journey.status}</TableCell>
+                            <TableCell>{journey.destination.name}</TableCell>
+                            <TableCell>{journey.duration}</TableCell>
+                            <TableCell>{journey.status}</TableCell>
                         </TableRow>
                     ))}
                 </TableBody>

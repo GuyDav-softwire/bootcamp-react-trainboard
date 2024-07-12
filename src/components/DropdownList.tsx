@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormControl, InputLabel, MenuItem,Select, SelectChangeEvent } from '@mui/material';
-import { StationModel } from '../models/StationModels';
+import { StationModel } from '../models/StationModel';
 
 interface DropdownProps<T> {
     label: string;

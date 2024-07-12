@@ -1,5 +1,5 @@
 import { OutboundJourney } from './FaresAPIResponse';
-import { StationModel } from './StationModels';
+import { StationModel } from './StationModel';
 
 export interface DepartureInfo {
     departureTime: Date;

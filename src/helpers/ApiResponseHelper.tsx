@@ -1,6 +1,6 @@
 import { departureInfoFromOutboundJourney } from '../models/DepartureInfo';
 import { FaresAPIResponseJSON } from '../models/FaresAPIResponse';
-import { StationModel } from '../models/StationModels';
+import { StationModel } from '../models/StationModel';
 import { fetchFares } from './ApiCallHelper';
 
 export const getDepartureInfoFromFares = async (departureValue: StationModel, arrivalValue: StationModel) => {

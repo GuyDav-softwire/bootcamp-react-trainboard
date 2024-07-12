@@ -3,32 +3,32 @@ import { Alert, Button, LinearProgress, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { getDepartureInfoFromFares } from '../helpers/ApiResponseHelper';
 import { DepartureInfo } from '../models/DepartureInfo';
-import { areStationsEqual, StationModel } from '../models/StationModels';
+import { areStationsEqual, StationModel } from '../models/StationModel';
 import DropdownList from './DropdownList';
 import JourneyDisplayTable from './JourneyDisplayTable';
 
 const JourneySelector: React.FC =  () => {
-    const stations: Map<string, StationModel> = new Map();
-    stations.set('KGX', { crs: 'KGX', name: 'King\'s Cross' }); 
-    stations.set('SVG', { crs: 'SVG', name: 'Stevenage' }); 
-    stations.set('YRK', { crs: 'YRK', name: 'York' });
-    stations.set('DAR', { crs: 'DAR', name: 'Darlington' });
-    stations.set('NCL', { crs: 'NCL', name: 'Newcastle' });
+    const stationsMap: Map<string, StationModel> = new Map();
+    stationsMap.set('KGX', { crs: 'KGX', name: 'King\'s Cross' }); 
+    stationsMap.set('SVG', { crs: 'SVG', name: 'Stevenage' }); 
+    stationsMap.set('YRK', { crs: 'YRK', name: 'York' });
+    stationsMap.set('DAR', { crs: 'DAR', name: 'Darlington' });
+    stationsMap.set('NCL', { crs: 'NCL', name: 'Newcastle' });
 
-    const [departureValue, setDepartureValue] = useState<StationModel|undefined>( undefined );
-    const [arrivalValue, setArrivalValue] = useState<StationModel|undefined>( undefined );
+    const [departureStation, setDepartureStation] = useState<StationModel|undefined>( undefined );
+    const [arrivalStation, setArrivalStation] = useState<StationModel|undefined>( undefined );
     const [journeys, setJourneys] = useState<DepartureInfo[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
 
     const searchFares = async () => {
-        if (departureValue && arrivalValue) {
-            if (areStationsEqual(arrivalValue, departureValue)) {
+        if (departureStation && arrivalStation) {
+            if (areStationsEqual(arrivalStation, departureStation)) {
                 setShowAlert(true);
             } 
             else {
                 setShowAlert(false);
-                setJourneys((await getDepartureInfoFromFares( departureValue, arrivalValue )) ?? []);
+                setJourneys((await getDepartureInfoFromFares(departureStation, arrivalStation)) ?? []);
             }
         }
         setIsSearching(false);
@@ -39,18 +39,18 @@ const JourneySelector: React.FC =  () => {
             <Stack sx = { { marginBottom: 2 } } direction = 'row' spacing = { '5%' }>
                 <DropdownList
                     label = { 'Departure Station' }
-                    items = { stations }
-                    setValue = { setDepartureValue } 
+                    items = { stationsMap }
+                    setValue = { setDepartureStation } 
                 />
                 <DropdownList 
                     label = { 'Arrival Station' }
-                    items = { stations }
-                    setValue = { setArrivalValue } 
+                    items = { stationsMap }
+                    setValue = { setArrivalStation } 
                 />
                 <Button 
                     variant = 'contained' 
                     onClick = { () => { setIsSearching(true); searchFares(); } } 
-                    disabled = { isSearching || !departureValue || !arrivalValue }
+                    disabled = { isSearching || !departureStation || !arrivalStation }
                 >
                     GO
                 </Button>

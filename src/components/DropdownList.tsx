@@ -1,32 +1,30 @@
 import React from 'react';
-import { FormControl, InputLabel, MenuItem,Select, SelectChangeEvent } from '@mui/material';
-import { StationModel } from '../models/StationModel';
+import { FormControl, InputLabel, Select, SelectChangeEvent } from '@mui/material';
 
 interface DropdownProps<T> {
     label: string;
     items: Map<string,T>;
     setValue: (value: T) => void;
+    getComponent: (item: T) => React.ReactNode;
 }
 
-const DropdownList: React.FC<DropdownProps<StationModel>> = ({ label, items, setValue }) => {
+const DropdownList = <T,>(props: DropdownProps<T>) => {
     return (
         <FormControl fullWidth>
-            <InputLabel>{ label }</InputLabel>
+            <InputLabel>{ props.label }</InputLabel>
             <Select 
-                label = { label }
+                label = { props.label }
                 value = { undefined }
                 onChange = { (event: SelectChangeEvent) => {
-                    const newStation = items.get(event.target.value);
+                    const newStation = props.items.get(event.target.value);
                     if (newStation) {
-                        setValue(newStation);
+                        props.setValue(newStation);
                     }
                 } }
             >
                 {
-                    Array.from(items.values()).map(station => 
-                        <MenuItem key = { station.crs } value = { station.crs }>
-                            { station.name }
-                        </MenuItem>,
+                    Array.from(props.items.values()).map(item =>
+                        props.getComponent(item),
                     )
                 }
             </Select>

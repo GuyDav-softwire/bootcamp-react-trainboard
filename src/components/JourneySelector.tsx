@@ -6,6 +6,7 @@ import { DepartureInfo } from '../models/DepartureInfo';
 import { areStationsEqual, StationModel } from '../models/StationModel';
 import DropdownList from './DropdownList';
 import JourneyDisplayTable from './JourneyDisplayTable';
+import StationListItem from './StationListItem';
 
 const JourneySelector: React.FC =  () => {
     const stationsMap: Map<string, StationModel> = new Map();
@@ -37,15 +38,17 @@ const JourneySelector: React.FC =  () => {
     return (
         <Container sx = { { marginTop: 5 } }>
             <Stack sx = { { marginBottom: 2 } } direction = 'row' spacing = { '5%' }>
-                <DropdownList
+                <DropdownList<StationModel>
                     label = { 'Departure Station' }
                     items = { stationsMap }
                     setValue = { setDepartureStation } 
+                    getComponent = { StationListItem }
                 />
-                <DropdownList 
+                <DropdownList<StationModel>
                     label = { 'Arrival Station' }
                     items = { stationsMap }
                     setValue = { setArrivalStation } 
+                    getComponent = { StationListItem }
                 />
                 <Button 
                     variant = 'contained' 

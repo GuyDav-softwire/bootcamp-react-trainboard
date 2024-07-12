@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, Autocomplete, Button, LinearProgress, Stack, TextField } from '@mui/material';
+import { Alert, Button, LinearProgress, Stack } from '@mui/material';
 import Container from '@mui/material/Container';
 import { getDepartureInfoListFromFares, getStationModelListFromStations } from '../helpers/ApiResponseHelper';
 import { DepartureInfo } from '../models/DepartureInfo';
@@ -8,9 +8,9 @@ import AutoCompleteDropdown from './AutoCompleteDropdown';
 import JourneyDisplayTable from './JourneyDisplayTable';
 
 const JourneySelector: React.FC =  () => {
-    const [stationsList, setStationsList] = useState<StationModel[]>( [] );
-    const [departureStation, setDepartureStation] = useState<StationModel|undefined>( undefined );
-    const [arrivalStation, setArrivalStation] = useState<StationModel|undefined>( undefined );
+    const [stationsList, setStationsList] = useState<StationModel[]>([]);
+    const [departureStation, setDepartureStation] = useState<StationModel|undefined>(undefined);
+    const [arrivalStation, setArrivalStation] = useState<StationModel|undefined>(undefined);
     const [journeys, setJourneys] = useState<DepartureInfo[]>([]);
     const [isSearching, setIsSearching] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
@@ -23,13 +23,11 @@ const JourneySelector: React.FC =  () => {
 
     const searchFares = async () => {
         if (departureStation && arrivalStation) {
-            if (areStationsEqual(arrivalStation, departureStation)) {
-                setShowAlert(true);
-            } 
-            else {
-                setShowAlert(false);
+            const stationsEqual = areStationsEqual(arrivalStation, departureStation);
+            setShowAlert(stationsEqual);
+            if (!stationsEqual) {
                 setJourneys((await getDepartureInfoListFromFares(departureStation, arrivalStation)) ?? []);
-            }
+            } 
         }
         setIsSearching(false);
     };

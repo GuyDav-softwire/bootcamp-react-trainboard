@@ -1,5 +1,5 @@
 import { departureInfoFromOutboundJourney } from '../models/DepartureInfo';
-import { FaresAPIResponseJSON } from '../models/FaresAPIResponse';
+import { FaresAPIResponseJSON } from '../models/FaresAPIResponseJSON';
 import { StationModel, stationModelFromStation } from '../models/StationModel';
 import { StationsAPIResponseJSON } from '../models/StationsAPIResponseJSON';
 import { fetchFares, fetchStations } from './ApiCallHelper';

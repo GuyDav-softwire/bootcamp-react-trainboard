@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Autocomplete, TextField } from '@mui/material';
 interface AutocompleteDropdownProps<T> {
     label: string;
@@ -12,7 +12,7 @@ const AutocompleteDropdown = <T,>(props: AutocompleteDropdownProps<T>) => {
     return (
         <Autocomplete
             value = { props.value }
-            onChange = { (event, value) => !value || props.setValue(value) }
+            onChange = { (_, value) => !value || props.setValue(value) }
             id = 'station-autocomplete'
             disablePortal
             options = { props.options.sort((a, b) => props.getOptionLabel(a).localeCompare(props.getOptionLabel(b)) ) }

@@ -1,4 +1,4 @@
-import { OutboundJourney } from './FaresAPIResponse';
+import { OutboundJourney } from './FaresAPIResponseJSON';
 import { StationModel } from './StationModel';
 
 export interface DepartureInfo {

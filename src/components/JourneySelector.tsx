@@ -4,12 +4,11 @@ import Container from '@mui/material/Container';
 import { getDepartureInfoListFromFares, getStationModelListFromStations } from '../helpers/ApiResponseHelper';
 import { DepartureInfo } from '../models/DepartureInfo';
 import { areStationsEqual, StationModel } from '../models/StationModel';
-import DropdownList from './DropdownList';
+import AutoCompleteDropdown from './AutoCompleteDropdown';
 import JourneyDisplayTable from './JourneyDisplayTable';
-import StationListItem from './StationListItem';
 
 const JourneySelector: React.FC =  () => {
-    const [stationsMap, setStationsMap] = useState<Map<string, StationModel>>( new Map() );
+    const [stationsList, setStationsList] = useState<StationModel[]>( [] );
     const [departureStation, setDepartureStation] = useState<StationModel|undefined>( undefined );
     const [arrivalStation, setArrivalStation] = useState<StationModel|undefined>( undefined );
     const [journeys, setJourneys] = useState<DepartureInfo[]>([]);
@@ -18,9 +17,7 @@ const JourneySelector: React.FC =  () => {
 
     useEffect(() => {
         getStationModelListFromStations().then(stationList => {
-            const tempStationMap: Map<string, StationModel> = new Map();
-            stationList?.forEach(station => tempStationMap.set(station.nlc, station));
-            setStationsMap(tempStationMap);
+            setStationsList(stationList ?? []);
         }); 
     }, []); 
 
@@ -40,17 +37,21 @@ const JourneySelector: React.FC =  () => {
     return (
         <Container sx = { { marginTop: 5 } }>
             <Stack sx = { { marginBottom: 2 } } direction = 'row' spacing = { '5%' }>
-                <DropdownList<StationModel>
-                    label = { 'Departure Station' }
-                    items = { stationsMap }
-                    setValue = { setDepartureStation } 
-                    getComponent = { StationListItem }
+                <AutoCompleteDropdown<StationModel>
+                    label = 'Departure Station'
+                    options = { stationsList }
+                    value = { departureStation }
+                    getOptionLabel = { option => option.name }
+                    getOptionKey = { option => option.nlc }
+                    setValue = { setDepartureStation }
                 />
-                <DropdownList<StationModel>
-                    label = { 'Arrival Station' }
-                    items = { stationsMap }
-                    setValue = { setArrivalStation } 
-                    getComponent = { StationListItem }
+                <AutoCompleteDropdown<StationModel>
+                    label = 'Arrival Station'
+                    options = { stationsList }
+                    value = { arrivalStation }
+                    getOptionLabel = { option => option.name }
+                    getOptionKey = { option => option.nlc }
+                    setValue = { setArrivalStation }
                 />
                 <Button 
                     variant = 'contained' 
